@@ -1,0 +1,7 @@
+.place__like-group {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 12px;
+}

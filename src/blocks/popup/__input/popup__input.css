@@ -1,0 +1,15 @@
+.popup__input {
+  width: 100%;
+  padding: 8px 0 18px;
+  border: none;
+  border-bottom: 1px solid #BEBEBE;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.22;
+  color: #000000;
+}
+
+.popup__input:first-of-type {
+  margin-top: 0;
+}

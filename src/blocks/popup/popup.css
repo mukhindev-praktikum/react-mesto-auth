@@ -1,0 +1,33 @@
+@import './__container/popup__container.css';
+@import './__close-button/popup__close-button.css';
+@import './__title/popup__title.css';
+@import './__form/popup__form.css';
+@import './__input/popup__input.css';
+@import './__input/_value/popup__input_value_profile-name.css';
+@import './__input/_value/popup__input_value_profile-about.css';
+@import './__input/_value/popup__input_value_place-name.css';
+@import './__input/_value/popup__input_value_place-photo.css';
+@import './__input/_type/popup__input_type_error.css';
+@import './__save-button/popup__save-button.css';
+@import './__save-button/_disabled/popup__save-button_disabled.css';
+@import './__lightbox-wrapper/popup__lightbox-wrapper.css';
+@import './__lightbox-photo/popup__lightbox-photo.css';
+@import './__lightbox-label/__lightbox-label.css';
+@import './__error/popup__error.css';
+@import './__error/_visible/popup__error_visible.css';
+
+.popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+}
+

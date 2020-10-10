@@ -1,0 +1,13 @@
+@import './vendor/normalize.css';
+@import './fonts/inter.css';
+@import './blocks/root/root.css';
+@import './blocks/page/page.css';
+@import './blocks/header/header.css';
+@import './blocks/main/main.css';
+@import './blocks/profile/profile.css';
+@import './blocks/places/places.css';
+@import './blocks/place/place.css';
+@import './blocks/footer/footer.css';
+@import './blocks/popup/popup.css';
+@import './blocks/popup/_opacity/popup_opacity_low.css';
+@import './blocks/popup/_opened/popup_opened.css';

@@ -1,0 +1,13 @@
+@import './__link-home/header__link-home.css';
+@import './__logo/header__logo.css';
+
+.header {
+  padding: 41px 0 45px;
+  border-bottom: 1px solid #545454;
+}
+
+@media (max-width: 425px) {
+  .header {
+    padding: 28px 27px 28px;
+  }
+}

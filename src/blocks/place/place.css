@@ -1,0 +1,13 @@
+@import './__photo/place__photo.css';
+@import './__panel/place__panel.css';
+@import './__name/place__name.css';
+@import './__delete-button/place__delete-button.css';
+@import './__like-group/place__like-group.css';
+@import './__like/place__like.css';
+@import './__like-counter/place__like-counter.css';
+@import './__like/_active/place__like_active.css';
+@import './__photo-square-container/place__photo-square-container.css';
+
+.place {
+  position: relative;
+}
