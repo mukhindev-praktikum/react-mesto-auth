@@ -1,0 +1,13 @@
+.auth__question {
+  margin: 15px 0 0;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.21;
+  text-align: center;
+}
+
+@media (max-width: 425px) {
+  .auth__question {
+    margin: 20px 0 0;
+  }
+}

@@ -15,6 +15,9 @@
 @import './__lightbox-label/__lightbox-label.css';
 @import './__error/popup__error.css';
 @import './__error/_visible/popup__error_visible.css';
+@import './__info-icon-check/popup__info-icon-check.css';
+@import './__info-icon-cross/popup__info-icon-cross.css';
+@import './__info-text/popup__info-text.css';
 
 .popup {
   position: fixed;

@@ -1,9 +1,17 @@
 @import './__link-home/header__link-home.css';
 @import './__logo/header__logo.css';
+@import './__auth-email/header__auth-email.css';
+@import './__auth-button/header__auth-button.css';
+@import './__auth-button/_color/header__auth-button_color_gray.css';
+@import './__burger-button/__burger-button.css';
+@import './__burger-menu/header__burger-menu.css';
 
 .header {
   padding: 41px 0 45px;
   border-bottom: 1px solid #545454;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 @media (max-width: 425px) {

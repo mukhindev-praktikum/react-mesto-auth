@@ -1,0 +1,19 @@
+@import './__form/auth__form.css';
+@import './__title/auth__title.css';
+@import './__question/auth__question.css';
+@import './__question-link/auth__question-link.css';
+@import './__button-submit/auth__button-submit.css';
+@import './__input/auth__input.css';
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 0;
+}
+
+@media (max-width: 425px) {
+  .auth {
+    padding: 40px 27px
+  }
+}

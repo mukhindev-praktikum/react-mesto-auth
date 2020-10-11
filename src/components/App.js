@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import api from '../utils/api'
+import * as mestoAuth from '../mestoAuth'
 import Header from './Header'
+import ProtectedRoute from './ProtectedRoute'
+import Login from './Login'
+import Register from './Register'
+import InfoTooltip from './InfoTooltip'
 import Main from './Main'
 import Footer from './Footer'
 import EditAvatarPopup from './EditAvatarPopup'
@@ -11,26 +17,99 @@ import DeletePopup from './DeletePopup'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function App () {
+  const [loggedIn, setLoggedIn] = React.useState(false)
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false)
   const [pendingDeletion, setPendingDeletion] = React.useState({ card: {}, isOpen: false })
   const [selectedCard, setSelectedCard] = React.useState({ card: {}, isOpen: false })
   const [currentUser, setCurrentUser] = React.useState({})
+  const [userEmail, setUserEmail] = React.useState('')
   const [cards, setCards] = React.useState([])
+  const [infoTooltip, setInfoTooltip] = React.useState({ message: '', icon: '', isOpen: false })
+
+  const history = useHistory()
 
   function handleError (error) {
     console.error(error)
   }
 
   useEffect(() => {
-    Promise.all([api.getMe(), api.getCards()])
-      .then(([user, cardsFromServer]) => {
-        setCurrentUser(user)
-        setCards(cardsFromServer)
-      })
-      .catch(handleError)
+    checkToken()
+    // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    if (loggedIn) {
+      Promise.all([api.getMe(), api.getCards()])
+        .then(([user, cardsFromServer]) => {
+          setCurrentUser(user)
+          setCards(cardsFromServer)
+        })
+        .catch(handleError)
+    }
+  }, [loggedIn])
+
+  function checkToken () {
+    if (localStorage.token) {
+      mestoAuth.getMe({ token: localStorage.token })
+        .then((res) => {
+          if (res.data) {
+            setLoggedIn(true)
+            setUserEmail(res.data.email)
+            history.push('/')
+          } else {
+            localStorage.removeItem('token')
+            setLoggedIn(false)
+            setCurrentUser({})
+            setUserEmail('')
+          }
+        })
+    }
+  }
+
+  function handleLogout () {
+    localStorage.removeItem('token')
+    setLoggedIn(false)
+    setCurrentUser({})
+    setUserEmail('')
+  }
+
+  function handleLogin ({ email, password }) {
+    mestoAuth.signin({ email, password })
+      .then((res) => {
+        if (res.token) {
+          setLoggedIn(true)
+          checkToken()
+        } else {
+          setInfoTooltip({
+            message: 'Что-то пошло не так! Попробуйте ещё раз.',
+            icon: 'cross',
+            isOpen: true
+          })
+        }
+      })
+  }
+
+  function handleRegister ({ email, password }) {
+    mestoAuth.signup({ email, password })
+      .then((res) => {
+        if (res.data) {
+          setInfoTooltip({
+            message: 'Вы успешно зарегистрировались!',
+            icon: 'check',
+            isOpen: true
+          })
+          history.push('/login')
+        } else {
+          setInfoTooltip({
+            message: res.message || res.error,
+            icon: 'cross',
+            isOpen: true
+          })
+        }
+      })
+  }
 
   function handleEditAvatarClick () {
     setIsEditAvatarPopupOpen(true)
@@ -54,6 +133,7 @@ function App () {
     setIsAddPlacePopupOpen(false)
     setPendingDeletion({ card: {}, isOpen: false })
     setSelectedCard({ ...selectedCard, isOpen: false })
+    setInfoTooltip({ ...infoTooltip, isOpen: false })
   }
 
   function handleSetCards (updatedCards) {
@@ -123,17 +203,30 @@ function App () {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onSetCards={handleSetCards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleRequestDelete}
-          cards={cards}
+        <Header
+          email={userEmail}
+          onLogout={handleLogout}
         />
+        <Switch>
+          <Route path="/sign-in" exact>
+            <Login onLogin={handleLogin} />
+          </Route>
+          <Route path="/sign-up" exact>
+            <Register onRegister={handleRegister} />
+          </Route>
+          <ProtectedRoute
+            component={Main}
+            loggedIn={loggedIn}
+            cards={cards}
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            onSetCards={handleSetCards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleRequestDelete}
+          />
+        </Switch>
         <Footer />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
@@ -160,6 +253,12 @@ function App () {
           isOpen={pendingDeletion.isOpen}
           onClose={closeAllPopups}
           onDelete={handleCardDelete}
+        />
+        <InfoTooltip
+          message={infoTooltip.message}
+          icon={infoTooltip.icon}
+          isOpen={infoTooltip.isOpen}
+          onClose={closeAllPopups}
         />
       </div>
     </CurrentUserContext.Provider>

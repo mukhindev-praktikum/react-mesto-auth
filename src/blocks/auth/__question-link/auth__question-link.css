@@ -1,0 +1,13 @@
+.auth__question-link {
+  margin: 15px 0 0;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #FFF;
+  transition: opacity 0.25s;
+  text-decoration: none;
+}
+
+.auth__question-link:hover {
+  opacity: 0.6;
+}

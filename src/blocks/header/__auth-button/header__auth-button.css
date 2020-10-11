@@ -1,0 +1,23 @@
+.header__auth-button {
+  padding: 0;
+  background-color: transparent;
+  transition: 0.25s;
+  border: none;
+  color: #fff;
+  font-family: Inter;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+  outline: none;
+}
+
+.header__auth-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media (max-width: 425px) {
+  .header__auth-button {
+    font-size: 14px;
+  }
+}

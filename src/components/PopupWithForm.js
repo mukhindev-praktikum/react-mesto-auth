@@ -16,7 +16,7 @@ function PopupWithForm ({ children, name, title, isOpen, onClose, onSubmit }) {
           className="popup__close-button"
           onClick={onClose}
         />
-        <h3 className="popup__title">{title}</h3>
+        {title && <h3 className="popup__title">{title}</h3>}
         <form
           className="popup__form"
           name={name}

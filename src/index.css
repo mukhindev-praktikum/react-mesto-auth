@@ -11,3 +11,4 @@
 @import './blocks/popup/popup.css';
 @import './blocks/popup/_opacity/popup_opacity_low.css';
 @import './blocks/popup/_opened/popup_opened.css';
+@import './blocks/auth/auth.css';

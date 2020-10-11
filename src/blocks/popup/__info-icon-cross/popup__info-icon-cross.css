@@ -1,0 +1,12 @@
+.popup__info-icon-cross {
+  margin: 24px auto 0;
+  width: 120px;
+  height: 120px;
+  background-image: url('../../../images/popup/__icon-cross.svg');
+}
+
+@media (max-width: 425px) {
+  .popup__info-icon-cross {
+    margin: 14px auto 0;
+  }
+}

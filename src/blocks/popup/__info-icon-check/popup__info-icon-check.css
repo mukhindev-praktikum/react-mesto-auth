@@ -1,0 +1,12 @@
+.popup__info-icon-check {
+  margin: 24px auto 0;
+  width: 120px;
+  height: 120px;
+  background-image: url('../../../images/popup/__icon-check.svg');
+}
+
+@media (max-width: 425px) {
+  .popup__info-icon-check {
+    margin: 14px auto 0;
+  }
+}

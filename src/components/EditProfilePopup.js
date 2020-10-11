@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import PopupWithForm from './PopupWithForm'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
-// TODO: Сбрасывать поля при несохранении
-
 function EditProfilePopup ({ isOpen, onClose, onUpdateUser }) {
   const currentUser = React.useContext(CurrentUserContext)
   const [name, setName] = React.useState('')
