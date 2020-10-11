@@ -4,7 +4,7 @@
   "private": true,
   "author": "Sergey Mukhin",
   "description": "Mesto react web application",
-  "homepage": "https://mukhindev-praktikum.github.io/mesto-react/",
+  "homepage": "https://mukhindev-praktikum.github.io/react-mesto-auth/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
