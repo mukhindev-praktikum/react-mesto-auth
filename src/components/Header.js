@@ -92,8 +92,6 @@ function Header ({ email, onLogout }) {
     }
   }
 
-  // return getButtonJsx(authButtons, pathname)
-
   return (
     <>
       {burgerActive && email &&
