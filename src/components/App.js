@@ -77,16 +77,20 @@ function App () {
 
   function handleLogin ({ email, password }) {
     mestoAuth.signin({ email, password })
-      .then((res) => {
-        if (res.token) {
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('token', data.token)
           setLoggedIn(true)
           checkToken()
+        }
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          setInfoTooltip({ message: 'Не передано одно из полей', icon: 'cross', isOpen: true })
+        } else if (err.status === 401) {
+          setInfoTooltip({ message: 'Пользователь с email не найден', icon: 'cross', isOpen: true })
         } else {
-          setInfoTooltip({
-            message: 'Что-то пошло не так! Попробуйте ещё раз.',
-            icon: 'cross',
-            isOpen: true
-          })
+          setInfoTooltip({ message: 'Что-то пошло не так! Попробуйте ещё раз', icon: 'cross', isOpen: true })
         }
       })
   }
@@ -95,18 +99,15 @@ function App () {
     mestoAuth.signup({ email, password })
       .then((res) => {
         if (res.data) {
-          setInfoTooltip({
-            message: 'Вы успешно зарегистрировались!',
-            icon: 'check',
-            isOpen: true
-          })
+          setInfoTooltip({ message: 'Вы успешно зарегистрировались!', icon: 'check', isOpen: true })
           history.push('/login')
+        }
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          setInfoTooltip({ message: 'Некорректно заполнено одно из полей', icon: 'cross', isOpen: true })
         } else {
-          setInfoTooltip({
-            message: res.message || res.error,
-            icon: 'cross',
-            isOpen: true
-          })
+          setInfoTooltip({ message: 'Что-то пошло не так! Попробуйте ещё раз', icon: 'cross', isOpen: true })
         }
       })
   }
