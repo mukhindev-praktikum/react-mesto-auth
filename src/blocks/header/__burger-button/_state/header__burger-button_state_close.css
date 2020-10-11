@@ -1,0 +1,4 @@
+.header__burger-button_state_close {
+  background-image: url('../../../../images/header/__close.svg');
+  transform: rotate(180deg);
+}

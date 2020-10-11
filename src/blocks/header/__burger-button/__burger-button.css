@@ -1,3 +1,17 @@
-.header__burger-menu {
-  background-color: yellow;
+.header__burger-button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url('../../../images/header/__burger.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.25s;
+  padding: 0;
+  outline: none;
+}
+
+.header__burger-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }

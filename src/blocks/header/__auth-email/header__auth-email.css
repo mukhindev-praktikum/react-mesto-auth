@@ -5,3 +5,9 @@
   line-height: 1.22;
   color: #FFFFFF;
 }
+
+@media (max-width: 768px) {
+  .header__auth-email {
+    margin: 0 0 18px;
+  }
+}

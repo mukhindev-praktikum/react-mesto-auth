@@ -2,8 +2,10 @@
 @import './__logo/header__logo.css';
 @import './__auth-email/header__auth-email.css';
 @import './__auth-button/header__auth-button.css';
+@import './__auth-button/_place/header__auth-button_place_burger.css';
 @import './__auth-button/_color/header__auth-button_color_gray.css';
 @import './__burger-button/__burger-button.css';
+@import './__burger-button/_state/header__burger-button_state_close.css';
 @import './__burger-menu/header__burger-menu.css';
 
 .header {

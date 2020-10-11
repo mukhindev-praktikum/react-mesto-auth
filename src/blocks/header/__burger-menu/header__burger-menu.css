@@ -1,3 +1,21 @@
 .header__burger-menu {
-  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #545454;
+  overflow: hidden;
+  box-sizing: border-box;
+  animation: burger-open 0.25s forwards;
+  height: auto;
+}
+
+@keyframes burger-open {
+  from {
+    padding: 0 0;
+    height: 0;
+  }
+  to {
+    padding: 40px 0;
+    height: auto;
+  }
 }
