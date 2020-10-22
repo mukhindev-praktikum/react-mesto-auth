@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
-import api from '../utils/api'
-import * as mestoAuth from '../mestoAuth'
+import api from '../api'
 import Header from './Header'
 import ProtectedRoute from './ProtectedRoute'
 import Login from './Login'
@@ -41,10 +40,10 @@ function App () {
 
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([api.getMe(), api.getCards()])
-        .then(([user, cardsFromServer]) => {
+      Promise.all([api.getMe({ token: localStorage.token }), api.getCards({ token: localStorage.token })])
+        .then(([{ data: user }, { data: cardsFromServer }]) => {
           setCurrentUser(user)
-          setCards(cardsFromServer)
+          setCards(cardsFromServer.reverse())
         })
         .catch(handleError)
     }
@@ -52,7 +51,7 @@ function App () {
 
   function checkToken () {
     if (localStorage.token) {
-      mestoAuth.getMe({ token: localStorage.token })
+      api.getMe({ token: localStorage.token })
         .then((res) => {
           if (res.data) {
             setLoggedIn(true)
@@ -76,7 +75,7 @@ function App () {
   }
 
   function handleLogin ({ email, password }) {
-    mestoAuth.signin({ email, password })
+    api.signin({ email, password })
       .then((data) => {
         if (data.token) {
           localStorage.setItem('token', data.token)
@@ -86,9 +85,9 @@ function App () {
       })
       .catch((err) => {
         if (err.status === 400) {
-          setInfoTooltip({ message: 'Не передано одно из полей', icon: 'cross', isOpen: true })
+          setInfoTooltip({ message: 'Некорректно заполнено одно из полей', icon: 'cross', isOpen: true })
         } else if (err.status === 401) {
-          setInfoTooltip({ message: 'Пользователь с email не найден', icon: 'cross', isOpen: true })
+          setInfoTooltip({ message: 'Неверный логин или пароль', icon: 'cross', isOpen: true })
         } else {
           setInfoTooltip({ message: 'Что-то пошло не так! Попробуйте ещё раз', icon: 'cross', isOpen: true })
         }
@@ -96,7 +95,7 @@ function App () {
   }
 
   function handleRegister ({ email, password }) {
-    mestoAuth.signup({ email, password })
+    api.signup({ email, password })
       .then((res) => {
         if (res.data) {
           setInfoTooltip({ message: 'Вы успешно зарегистрировались!', icon: 'check', isOpen: true })
@@ -106,6 +105,8 @@ function App () {
       .catch((err) => {
         if (err.status === 400) {
           setInfoTooltip({ message: 'Некорректно заполнено одно из полей', icon: 'cross', isOpen: true })
+        } else if (err.status === 403) {
+          setInfoTooltip({ message: 'Вы уже зарегистрированы', icon: 'cross', isOpen: true })
         } else {
           setInfoTooltip({ message: 'Что-то пошло не так! Попробуйте ещё раз', icon: 'cross', isOpen: true })
         }
@@ -142,7 +143,7 @@ function App () {
   }
 
   function handleUpdateUser ({ name, about }) {
-    api.updateMe({ name, about })
+    api.updateMe({ token: localStorage.token, name, about })
       .then(() => {
         setCurrentUser({ ...currentUser, name, about })
         setIsEditProfilePopupOpen(false)
@@ -151,7 +152,7 @@ function App () {
   }
 
   function handleUpdateAvatar ({ avatar }) {
-    api.updateAvatar(avatar)
+    api.updateAvatar({ token: localStorage.token, avatar })
       .then(() => {
         setCurrentUser({ ...currentUser, avatar })
         setIsEditAvatarPopupOpen(false)
@@ -160,19 +161,19 @@ function App () {
   }
 
   function handleCardLike (card) {
-    const isLiked = card.likes.some(el => el._id === currentUser._id)
+    const isLiked = card.likes.some(el => el === currentUser._id)
 
-    function handleResponseCardLike (newCard) {
+    function handleResponseCardLike ({ data: newCard }) {
       const newCards = cards.map(el => el._id === card._id ? newCard : el)
       setCards(newCards)
     }
 
     if (!isLiked) {
-      api.likeCard(card._id)
+      api.likeCard({ token: localStorage.token, cardId: card._id })
         .then(handleResponseCardLike)
         .catch(handleError)
     } else {
-      api.dislikeCard(card._id)
+      api.dislikeCard({ token: localStorage.token, cardId: card._id })
         .then(handleResponseCardLike)
         .catch(handleError)
     }
@@ -183,7 +184,7 @@ function App () {
   }
 
   function handleCardDelete (card) {
-    api.deleteCard(card._id)
+    api.deleteCard({ token: localStorage.token, cardId: card._id })
       .then(() => {
         const newCards = cards.filter(el => el._id !== card._id)
         setCards(newCards)
@@ -193,8 +194,8 @@ function App () {
   }
 
   function handleAddPlaceSubmit ({ name, link }) {
-    api.createCard({ name, link })
-      .then((newCard) => {
+    api.createCard({ token: localStorage.token, name, link })
+      .then(({ data: newCard }) => {
         setCards([newCard, ...cards])
         setIsAddPlacePopupOpen(false)
       })

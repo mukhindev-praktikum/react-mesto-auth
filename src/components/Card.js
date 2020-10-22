@@ -4,8 +4,8 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function Card ({ card, onCardClick, onCardLike, onCardDelete }) {
   const { _id: userId } = React.useContext(CurrentUserContext)
-  const isOwn = card.owner._id === userId
-  const isLiked = card.likes.some(el => el._id === userId)
+  const isOwn = card.owner === userId
+  const isLiked = card.likes.some(el => el === userId)
   const numberOfLikes = card.likes.length
 
   function getlikeClasses () {

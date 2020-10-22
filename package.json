@@ -18,7 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "gh-pages --dotfiles -d build",
+    "deploy": "react-scripts build && scp -r ./build/* praktikum@84.201.178.149:/home/praktikum/mesto-frontend",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
