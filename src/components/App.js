@@ -105,7 +105,7 @@ function App () {
       .catch((err) => {
         if (err.status === 400) {
           setInfoTooltip({ message: 'Некорректно заполнено одно из полей', icon: 'cross', isOpen: true })
-        } else if (err.status === 403) {
+        } else if (err.status === 409) {
           setInfoTooltip({ message: 'Вы уже зарегистрированы', icon: 'cross', isOpen: true })
         } else {
           setInfoTooltip({ message: 'Что-то пошло не так! Попробуйте ещё раз', icon: 'cross', isOpen: true })
